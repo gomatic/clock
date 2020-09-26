@@ -1,6 +1,7 @@
 package clock
 
 import (
+	"fmt"
 	"testing"
 	"time"
 
@@ -15,9 +16,10 @@ func TestClock_Time(t *testing.T) {
 	}{
 		// {name: "Default", c: Default, want: time.Now().UTC().Truncate(time.Second)},
 		{name: "Epoch", c: Epoch, want: time.Date(1970, 1, 1, 0, 0, 0, 0, time.UTC)},
-		{name: "Format", c: Format, want: time.Date(2006, 1, 2, 15, 4, 5, 987654321, time.UTC)},
+		{name: "Format", c: Format, want: time.Date(2006, 1, 2, 15, 4, 5, 999999999, time.UTC)},
 		{name: "Playground", c: Playground, want: time.Date(2009, 11, 10, 11, 0, 0, 0, time.UTC)},
-		{name: "NineElevent", c: NineEleven, want: time.Date(2001, 9, 11, 12, 46, 40, 0, time.UTC)},
+		{name: "NineEleven", c: NineEleven, want: time.Date(2001, 9, 11, 12, 46, 40, 0, time.UTC)},
+		{name: "AllOnes", c: AllOnes, want: time.Date(2111, 11, 11, 11, 11, 11, 111111111, time.UTC)},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -62,5 +64,32 @@ func TestClock_Time_Error(t *testing.T) {
 			_, err := Clock(tt.time).Time()
 			assert.Error(t, err, "should have failed")
 		})
+	}
+}
+
+//
+func TestClock(t *testing.T) {
+	tests := []struct {
+		name  string
+		clock Clock
+		want  int
+	}{
+		{name: "format", clock: Format, want: 2006},
+		{name: "now", clock: Default, want: time.Now().Year()},
+		{name: "epoch", clock: Epoch, want: 1970},
+		{name: "now", clock: Default, want: time.Now().Year()},
+		{name: "format", clock: Format, want: 2006},
+		{name: "epoch", clock: Epoch, want: 1970},
+		{name: "now", clock: Default, want: time.Now().Year()},
+		{name: "epoch", clock: Epoch, want: 1970},
+		{name: "format", clock: Format, want: 2006},
+	}
+	for i := 0; i < 1; i++ {
+		for _, tt := range tests {
+			t.Run(fmt.Sprintf("%s %03d", tt.name, tt.want), func(t *testing.T) {
+				now := tt.clock.MustTime()()
+				assert.Equal(t, now.Year(), tt.want)
+			})
+		}
 	}
 }

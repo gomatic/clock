@@ -1,0 +1,13 @@
+# github.com/davecgh/go-spew v1.1.1
+## explicit
+github.com/davecgh/go-spew/spew
+# github.com/pmezard/go-difflib v1.0.0
+## explicit
+github.com/pmezard/go-difflib/difflib
+# github.com/stretchr/testify v1.2.2
+## explicit
+github.com/stretchr/testify/assert
+# golang.org/x/crypto v0.0.0-20200429183012-4b2356b1ed79
+## explicit
+# golang.org/x/net v0.0.0-20200501053045-e0ff5e5a1de5
+## explicit
